@@ -1,0 +1,25 @@
+seed: 42
+
+dataset:
+  data_path: "./data/EchoNet-Dynamic"
+  deactivate_cache: True
+  target_fps: 32
+  resample_to_num_frames_fps: True
+  image_size: 112
+  seconds: 2
+
+dataloader:
+  batch_size: 16
+  num_workers: 32
+
+trainer:
+  max_epochs: 100
+  lr: 1e-4
+
+wandb:
+  project: ""
+  entity: ""
+  interval: 10
+
+checkpoint:
+  path: "./outputs/ef_regression"

@@ -1,0 +1,81 @@
+unets:
+  unet1: # BASE
+    dim: 64
+    num_resnet_blocks: 2
+    dim_mults: [1,2,4]
+    max_text_len: 1
+    layer_attns: False 
+    layer_cross_attns: [False, False, True]
+    cond_images_channels: 3
+  unet2: # TSR
+    dim: 64
+    num_resnet_blocks: 2
+    dim_mults: [1,2,4]
+    max_text_len: 1
+    layer_attns: False 
+    layer_cross_attns: [False, False, True]
+    memory_efficient: True
+    cond_images_channels: 3
+  unet3: # TSR
+    dim: 64
+    num_resnet_blocks: 2
+    dim_mults: [1,2,4]
+    max_text_len: 1
+    layer_attns: False 
+    layer_cross_attns: [False, False, True]
+    memory_efficient: True
+    cond_images_channels: 3
+  unet4: # SSR
+    dim: 64
+    num_resnet_blocks: 2
+    dim_mults: [1,2,4]
+    max_text_len: 1
+    layer_attns: False 
+    layer_cross_attns: False
+    cond_images_channels: 3
+    attend_at_middle: False
+
+imagen:
+  condition_on_text: True
+  image_sizes: [56, 56, 56, 112]  # resolutions in the cascade: 56x56 -> 56x56 -> 56x56 -> 112x112
+  text_embed_dim: 1
+  num_sample_steps: [32, 32, 32, 64]
+  random_crop_sizes: [null, null, null, 56]
+  temporal_downsample_factor: [4, 2, 1, 1] # FPS in the cascade: 8fps -> 16fps -> 32fps -> 32fps
+  sigma_min: 0.002
+  sigma_max: 80
+  sigma_data: 0.25
+  rho: 7
+  P_mean: -1.2
+  P_std: 1.2
+  S_churn: [40, 80, 160, 160] # Determined empirically as working values
+  S_tmin: 0.05
+  S_tmax: 50
+  S_noise: 1.003
+
+trainer:
+  split_batches: False
+  lr: 5e-4
+  dl_tuple_output_keywords_names: ['images', 'text_embeds', 'cond_images']
+
+dataset:
+  data_path: "./data/EchoNet-Dynamic"
+  deactivate_cache: False
+  fps: 32 # frames per second of final video in the cascade
+  duration: 2.0 # seconds
+  grayscale: False
+
+dataloader: # This is adapted when launching the training script
+  batch_size: 8
+  num_workers: 8
+
+wandb:
+  project: ""
+  entity: ""
+
+checkpoint:
+  path: "./outputs/diffusion"
+  batch_size: 4
+  cond_scale: 5.
+  save_every_x_it: 5000
+
