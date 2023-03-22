@@ -1,6 +1,7 @@
 # EchoDiffusion
 
-This repository contains the code for the paper []. 
+This repository contains the code for the paper *Feature-Conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis*. Hadrien Reynaud, Mengyun Qiao, Mischa Dombrowski, Thomas Day, Reza
+  Razavi, Alberto Gomez, Paul Leeson and Bernhard Kainz. 2023.
 
 This README is divided into the following sections:
 - [EchoDiffusion](#echodiffusion)
@@ -35,8 +36,6 @@ The order of execution should be:
 ## 1. Setup this repository
 - To setup this repository, first download the EchoNet-Dynamic dataset https://echonet.github.io/dynamic/index.html#access. Unzip the file in folder `data`. The only item in the `data` folder should be the folder named `EchoNet-Dynamic`.
 - Make sure you have installed the `requirements`.
-- 
-
 
 ## 2. Train the reference ejection fraction regression model
 The reference ejection fraction regression model is trained on the EchoNet-Dynamic dataset. To train it, run the following command:
