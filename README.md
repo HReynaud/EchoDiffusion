@@ -1,13 +1,32 @@
 # EchoDiffusion
 
+# THIS IS A WORK IN PROGRESS - FULL CODE WILL BE RELEASED IN THE COMING WEEKS
+
 This repository contains the code for the paper []. 
 
-## Requirements
+This README is divided into the following sections:
+- [EchoDiffusion](#echodiffusion)
+- [THIS IS A WORK IN PROGRESS - FULL CODE WILL BE RELEASED IN THE COMING WEEKS](#this-is-a-work-in-progress---full-code-will-be-released-in-the-coming-weeks)
+- [Requirements](#requirements)
+- [Usage](#usage)
+  - [1. Setup this repository](#1-setup-this-repository)
+  - [2. Train the reference ejection fraction regression model](#2-train-the-reference-ejection-fraction-regression-model)
+  - [3. Train diffusion models](#3-train-diffusion-models)
+  - [4. Evaluate diffusion models](#4-evaluate-diffusion-models)
+    - [4.1. Compute MAE, RMSE, $R^2$, SSIM and LPIPS](#41-compute-mae-rmse-r2-ssim-and-lpips)
+    - [4.2. Compute FID and FVD](#42-compute-fid-and-fvd)
+  - [5. Train ejection fraction regression models on ablated and generated data](#5-train-ejection-fraction-regression-models-on-ablated-and-generated-data)
+- [Results](#results)
+- [Acknowledgements](#acknowledgements)
+- [Citation](#citation)
+  
+
+# Requirements
 All the code is written in Python 3.10.8. The requirements are listed in the file `requirements.txt`. To install them, run the following command:
 
     pip install -r requirements.txt
 
-## Usage
+# Usage
 The code is divided into two parts: the ejection fraction regression models and the diffusion models.
 The order of execution should be:
 1. Setup this repository
@@ -16,18 +35,18 @@ The order of execution should be:
 4. Evaluate diffusion models
 5. Train ejection fraction regression models on abalted and generated data
 
-### 1. Setup this repository
+## 1. Setup this repository
 - To setup this repository, first download the EchoNet-Dynamic dataset https://echonet.github.io/dynamic/index.html#access. Unzip the file in folder `data`. The only item in the `data` folder should be the folder named `EchoNet-Dynamic`.
 - Make sure you have installed the `requirements`.
 - 
 
 
-### 2. Train the reference ejection fraction regression model
+## 2. Train the reference ejection fraction regression model
 The reference ejection fraction regression model is trained on the EchoNet-Dynamic dataset. To train it, run the following command:
 
     python ef_regression/train_reference.py --config ef_regression/config_reference
 
-### 3. Train diffusion models
+## 3. Train diffusion models
 The diffusion models are trained on the EchoNet-Dynamic dataset. We provide configuration files for 1SCM, 2SCM and 4SCM cascaded diffusion models. To train them, you can run the following command:
 
     python diffusion/train.py --config diffusion/configs/1SCM.yaml --stage 1 --bs 4 --ignore_time 0.25
@@ -46,7 +65,7 @@ We also provide slurm scripts to launch the training of all the models described
 We used clusters of 8x NVIDIA A100 GPUs with 80GB of VRAM to train the models. Each stage was train for approximately 48 hours.
 
 
-### 4. Evaluate diffusion models
+## 4. Evaluate diffusion models
 
 We evaluate the diffusion models on two sets of metrics to get quantitavve estimates of:
 - The accuracy in the ejection fraction of the generated video compared to the ejection fraction requested as a conditionning (MAE, RMSE, $R^2$)
@@ -66,8 +85,10 @@ In both cases, the script will generate a `csv` file. To compute the actual metr
 
     python diffusion/evaluate/compute_metrics.py --model path/to/model
 
+### 4.1. Compute MAE, RMSE, $R^2$, SSIM and LPIPS
 This will compute: MAE, RMSE, $R^2$, SSIM and LPIPS, and display the results in the terminal. To compute FID and FVD, we use the [StyleGAN-V](https://github.com/HReynaud/stylegan-v) repo ([original repo here](https://github.com/universome/stylegan-v)).
 
+### 4.2. Compute FID and FVD
 To get the FID and FVD scores:
 1. Clone the [StyleGAN-V](https://github.com/HReynaud/stylegan-v) repository, and install the requirements (should be compatible with the requirements of this repo).
 2. We provide a script to prepare the videos generated with `generate_score_file_chunk.py`. That script expects the following file tree:
@@ -128,7 +149,20 @@ For reference, we obtained the following metrics for our models:
 | 2SCM  | Reconstruction | 112 x 112  | 32     | 146s          | 0.93 | 2.22 | 3.35 | 0.54 | 0.24  | 31.4 | 147  |
 | 4SCM  | Reconstruction | 112 x 112  | 32     | 279s          | 0.90 | 2.42 | 3.87 | 0.48 | 0.25  | 24.0 | 228  |
 
-### 5. Train ejection fraction regression models on abalted and generated data
+## 5. Train ejection fraction regression models on ablated and generated data
 
+
+
+# Results
+
+Our diffusion models can generate 2 seconds long videos, conditioned on one image and an ejection fraction.
+
+# Acknowledgements
+
+This work was supported by Ultromics Ltd. and the UKRI Centre for Doctoral Training in Artificial Intelligence for Healthcare\break(EP/S023283/1).
+The authors gratefully acknowledge the scientific support and HPC resources provided by the Erlangen National High Performance Computing Center (NHR@FAU) of the Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU) under the NHR project b143dc PatRo-MRI. NHR funding is provided by federal and Bavarian state authorities. NHR@FAU hardware is partially funded by the German Research Foundation (DFG) – 440719683.
+
+
+# Citation
 
 
