@@ -1,6 +1,6 @@
-############################
-#    RUN WITH train.py     #
-############################
+###############################
+# RUN WITH train_reference.py #
+###############################
 seed: 42
 limit: 1580
 video_ex_path: "./data/balancing_samples/videos"
