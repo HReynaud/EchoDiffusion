@@ -274,13 +274,14 @@ function check_good(pred, index) {
   cliked_element = currently_displayed[index];
   attempts += 1;
   if (cliked_element.real == pred) {
-    console.log('Correct');
     score += 1;
     image_path = right_path
   }else{
-    console.log('Wrong');
     image_path = wrong_path
   }
+
+  // Update score
+  document.getElementById('score').innerHTML = 'Score: ' + score + '/' + attempts + ' (' + Math.round(score/attempts*100) + '%)';
 
   // Generate new US object in JS
   const [type, filename] = pick_random();
@@ -302,15 +303,15 @@ function check_good(pred, index) {
       tmp_div.children[0],
       document.getElementById('gif-mosaic').children[index]
     );
-  }, 1000);
+  }, 1500);
 
 }
 
-
-window.onload = (event) => {
-  console.log('La page est complètement chargée');
+function start_game() {
   currently_displayed = [];
   document.getElementById('gif-mosaic').innerHTML = '';
+  document.getElementById('start_button').remove();
+  document.getElementById('score').style.display = 'inline-block';
 
   // initial selection of gifs
   for (var i = 0; i < mosaic_max_elem; i++) {
@@ -325,4 +326,9 @@ window.onload = (event) => {
     // display the gif
     document.getElementById('gif-mosaic').innerHTML += oneus.display();
   }
+}
+
+
+window.onload = (event) => {
+  console.log('Page is fully loaded');
 };
