@@ -229,7 +229,7 @@ class OneUs {
     this.position = position;
   }
 
-  display() {
+  display_game() {
     // Need to add call to game function
     // <div>'+capitalizeFirstLetter(this.type)+'</div>\
 
@@ -239,6 +239,17 @@ class OneUs {
                 <div class="caption">\
                   <button onclick="check_good(true, '+this.position+')">✅</button>\
                   <button onclick="check_good(false, '+this.position+')">❌</button>\
+                </div>\
+              </div>\
+            </div>';
+  }
+
+  display_static() {
+    return '<div class="video_wrapper">\
+              <div class="video_container">\
+                <img src="'+this.path+'" width="224">\
+                <div class="caption">\
+                < div>'+capitalizeFirstLetter(this.type)+'</div>\
                 </div>\
               </div>\
             </div>';
@@ -296,7 +307,7 @@ function check_good(pred, index) {
 
   // Replace the element after 1s
   var tmp_div = document.createElement('div');
-  tmp_div.innerHTML = new_one.display();
+  tmp_div.innerHTML = new_one.display_game();
 
   setTimeout(()=> {
     document.getElementById('gif-mosaic').replaceChild(
@@ -324,11 +335,27 @@ function start_game() {
     currently_displayed.push(oneus);
 
     // display the gif
-    document.getElementById('gif-mosaic').innerHTML += oneus.display();
+    document.getElementById('gif-mosaic').innerHTML += oneus.display_game();
   }
 }
 
 
 window.onload = (event) => {
   console.log('Page is fully loaded');
+  currently_displayed = [];
+  document.getElementById('gif-mosaic').innerHTML = '';
+
+  // initial selection of gifs
+  for (var i = 0; i < mosaic_max_elem; i++) {
+
+    // use the pick_random function
+    const [type, filename] = pick_random();
+
+    // create the object
+    const oneus = new OneUs(type, filename, i);
+    currently_displayed.push(oneus);
+
+    // display the gif
+    document.getElementById('gif-mosaic').innerHTML += oneus.display_static();
+  }
 };
