@@ -124,15 +124,20 @@ MODEL (ex. 1SCM)
 ```
 
 3. You should copy all the generated videos of that model in the corresponding folder *ie* `counterfactual/videos` if you used the `--rand_ef` flag, and `factual/videos` otherwrise. Then set `root_dir` to the `counterfactual` folder path or factual `folder` path in `split_videos_into_real_fake.sh` and run:
+
+
 ```
 sh diffusion/evaluate/scripts/split_videos_into_real_fake.sh
 ```
+
 This will populate the `images/real` and `images/fake` folder with the frames of the videos. Now you can run the FID and FVD metric computation with:
+
 ```
 cd stylegan-v
 
 python src/scripts/calc_metrics_for_dataset.py --real_data_path path/to/images/real --fake_data_path path/to/images/fake --mirror 0 --gpus 1 --resolution 128 --metrics fvd2048_16f,fid50k_full
 ```
+
 This will take a few minutes to run depending on the number of videos you generated. Results are printed in the terminal.
 
 For reference, we obtained the following metrics for our models:
