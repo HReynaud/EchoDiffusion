@@ -1,7 +1,11 @@
 var score = 0;
+var attempts = 0;
 var mosaic_max_elem = 24;
 var currently_displayed = [];
 var available_types = ['original', 'factual', 'counterfactual'];
+
+right_path = 'pool/right.jpeg'
+wrong_path = 'pool/wrong.jpeg'
 
 
 var counterfactual_filenames = [
@@ -236,6 +240,71 @@ class OneUs {
               </div>\
             </div>';
   }
+
+  replace_by(element, new_one) {
+
+  }
+}
+
+function pick_random() {
+  // randomly choose between original, factual and counterfactual
+  const random = Math.floor(Math.random() * available_types.length);
+  const type = available_types[random];
+
+  switch (type) {
+    case 'original':
+      var picked_list = original_files;
+      break;
+    case 'factual':
+      var picked_list = factual_filenames;
+      break;
+    case 'counterfactual':
+      var picked_list = counterfactual_filenames;
+      break;
+  }
+
+  // randomly choose a filename
+  const random2 = Math.floor(Math.random() * picked_list.length);
+  const filename = picked_list[random2];
+
+  return [type, filename];
+}
+
+
+function check_good(pred, index) {
+  cliked_element = currently_displayed[index];
+  attempts += 1;
+  if (cliked_element.real == pred) {
+    console.log('Correct');
+    score += 1;
+    image_path = right_path
+  }else{
+    console.log('Wrong');
+    image_path = wrong_path
+  }
+
+  // Generate new US object in JS
+  const [type, filename] = pick_random();
+  const new_one = new OneUs(type, filename, index);
+  currently_displayed[index] = new_one;
+
+  // Display new US in HTML
+  // Remove caption
+  document.getElementById('gif-mosaic').children[6].children[0].children[1].remove();
+  // Change gif for image
+  document.getElementById('gif-mosaic').children[6].children[0].children[0].src = image_path;
+
+  // Replace the element after 1s
+  var tmp_div = document.createElement('div');
+  tmp_div.innerHTML = new_one.display();
+
+  setTimeout(()=> {
+    document.getElementById('gif-mosaic').replaceChild(
+      document.getElementById('gif-mosaic').children[index],
+      tmp_div.children[0]
+    );
+  }, 1000);
+
 }
 
 
@@ -247,26 +316,8 @@ window.onload = (event) => {
   // initial selection of gifs
   for (var i = 0; i < mosaic_max_elem; i++) {
 
-    // randomly choose between original, factual and counterfactual
-    const random = Math.floor(Math.random() * available_types.length);
-    const type = available_types[random];
-
-    switch (type) {
-      case 'original':
-        var picked_list = original_files;
-        break;
-      case 'factual':
-        var picked_list = factual_filenames;
-        break;
-      case 'counterfactual':
-        var picked_list = counterfactual_filenames;
-        break;
-    }
-    
-
-    // randomly choose a filename
-    const random2 = Math.floor(Math.random() * picked_list.length);
-    const filename = picked_list[random2];
+    // use the pick_random function
+    const [type, filename] = pick_random();
 
     // create the object
     const oneus = new OneUs(type, filename, i);

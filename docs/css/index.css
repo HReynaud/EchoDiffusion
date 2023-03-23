@@ -165,6 +165,8 @@ div#gif-mosaic {
   grid-auto-rows: 223px;
   grid-auto-flow: dense;
   justify-content: center;
+  max-height: calc(224px *3);
+  overflow: hidden;
 }
 
 div.video_container div.caption {
