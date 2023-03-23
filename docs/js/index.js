@@ -1,4 +1,8 @@
-score = 0;
+var score = 0;
+var mosaic_max_elem = 24;
+var currently_displayed = [];
+var available_types = ['original', 'factual', 'counterfactual'];
+
 
 var counterfactual_filenames = [
   "0X100009310A3BD7FC.gif",
@@ -208,12 +212,67 @@ var factual_filenames = [
 
 var original_files = factual_filenames;
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 class OneUs {
-  constructor(type, filename) {
+  constructor(type, filename, position) {
     this.type = type;
     this.filename = filename;
     this.real = (type == 'original');
-    
     this.path = 'pool/' + this.type + '/' + this.filename;
+    this.position = position;
+  }
+
+  display() {
+    // Need to add call to game function
+    return '<div class="video_wrapper">\
+              <div class="video_container">\
+                <img src="'+this.path+'" width="224">\
+                <div class="caption">\
+                  <div>'+capitalizeFirstLetter(this.type)+'</div>\
+                </div>\
+              </div>\
+            </div>';
   }
 }
+
+
+window.onload = (event) => {
+  console.log('La page est complètement chargée');
+  currently_displayed = [];
+  document.getElementById('gif-mosaic').innerHTML = '';
+
+  // initial selection of gifs
+  for (var i = 0; i < mosaic_max_elem; i++) {
+
+    // randomly choose between original, factual and counterfactual
+    const random = Math.floor(Math.random() * available_types.length);
+    const type = available_types[random];
+
+    switch (type) {
+      case 'original':
+        var picked_list = original_files;
+        break;
+      case 'factual':
+        var picked_list = factual_filenames;
+        break;
+      case 'counterfactual':
+        var picked_list = counterfactual_filenames;
+        break;
+    }
+    
+
+    // randomly choose a filename
+    const random2 = Math.floor(Math.random() * picked_list.length);
+    const filename = picked_list[random2];
+
+    // create the object
+    const oneus = new OneUs(type, filename, i);
+    currently_displayed.push(oneus);
+
+    // display the gif
+    document.getElementById('gif-mosaic').innerHTML += oneus.display();
+  }
+};
