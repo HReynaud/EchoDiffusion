@@ -155,3 +155,13 @@ body {
 #interpolation-image-wrapper img {
   border-radius: 5px;
 }
+
+div#gif-mosaic {
+  margin: 0px;
+  padding: 0px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(224px, 0fr));
+  grid-gap: 10px;
+  grid-auto-rows: 224px;
+  grid-auto-flow: dense;
+}
