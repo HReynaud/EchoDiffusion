@@ -67,6 +67,7 @@ We evaluate the diffusion models on two sets of metrics to get quantitavve estim
 - The accuracy in the ejection fraction of the generated video compared to the ejection fraction requested as a conditionning (MAE, RMSE, $R^2$)
 - The image quality of the generated videos (SSIM, LPIPS, FID, FVD)
 
+### 4.1. Compute MAE, RMSE, $R^2$, SSIM and LPIPS
 All the code necessary to compute these metrics is located in the `evaluate` folder. The easiest way to compute these metrics to run:
 
     python diffusion/evaluate/generate_score_file_chunk.py --model path/to/model --bs 4 --num_noise 3 --chunks  --save_videos --rand_ef
@@ -81,12 +82,13 @@ In both cases, the script will generate a `csv` file. To compute the actual metr
 
     python diffusion/evaluate/compute_metrics.py --model path/to/model
 
-### 4.1. Compute MAE, RMSE, $R^2$, SSIM and LPIPS
-This will compute: MAE, RMSE, $R^2$, SSIM and LPIPS, and display the results in the terminal. To compute FID and FVD, we use the [StyleGAN-V](https://github.com/HReynaud/stylegan-v) repo ([original repo here](https://github.com/universome/stylegan-v)).
+This will compute: MAE, RMSE, $R^2$, SSIM and LPIPS, and display the results in the terminal.
 
 ### 4.2. Compute FID and FVD
+
+To compute FID and FVD, we use the [StyleGAN-V](https://github.com/HReynaud/stylegan-v) repo ([original repo here](https://github.com/universome/stylegan-v)).
 To get the FID and FVD scores:
-1. Clone the [StyleGAN-V](https://github.com/HReynaud/stylegan-v) repository, and install the requirements (should be compatible with the requirements of this repo).
+1. Clone the [StyleGAN-V](https://github.com/HReynaud/stylegan-v) repository, and install the requirements (compatible with the requirements of this repo).
 2. We provide a script to prepare the videos generated with `generate_score_file_chunk.py`. That script expects the following file tree:
 
 ```
@@ -162,9 +164,9 @@ Our diffusion models can generate 2 seconds long videos, conditioned on one imag
 
 | Model | Original |   Factual   | Counterfactual |
 | ----- | ------------ |   -------   | -------------- |
-| 1SCM  | ![1SCM factual](assets/1SCM_original.gif) | ![1SCM factual](assets/1SCM_factual.gif) | ![1SCM counterfactual](assets/1SCM_counterfactual.gif) |
-| 2SCM  | ![2SCM factual](assets/2SCM_original.gif) | ![2SCM factual](assets/2SCM_factual.gif) | ![2SCM counterfactual](assets/2SCM_counterfactual.gif) |
-| 4SCM  | ![4SCM factual](assets/4SCM_original.gif) | ![4SCM factual](assets/4SCM_factual.gif) | ![4SCM counterfactual](assets/4SCM_counterfactual.gif) |
+| 1SCM  | ![1SCM factual](web/assets/1SCM_original.gif) | ![1SCM factual](web/assets/1SCM_factual.gif) | ![1SCM counterfactual](web/assets/1SCM_counterfactual.gif) |
+| 2SCM  | ![2SCM factual](web/assets/2SCM_original.gif) | ![2SCM factual](web/assets/2SCM_factual.gif) | ![2SCM counterfactual](web/assets/2SCM_counterfactual.gif) |
+| 4SCM  | ![4SCM factual](web/assets/4SCM_original.gif) | ![4SCM factual](web/assets/4SCM_factual.gif) | ![4SCM counterfactual](web/assets/4SCM_counterfactual.gif) |
 
 # Acknowledgements
 
@@ -173,7 +175,15 @@ The authors gratefully acknowledge the scientific support and HPC resources prov
 
 
 # Citation
-
-
+```
+@misc{reynaud2023featureconditioned,
+      title={Feature-Conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis}, 
+      author={Hadrien Reynaud and Mengyun Qiao and Mischa Dombrowski and Thomas Day and Reza Razavi and Alberto Gomez and Paul Leeson and Bernhard Kainz},
+      year={2023},
+      eprint={2303.12644},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
+}
+```
 
 
