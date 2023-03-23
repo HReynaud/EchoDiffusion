@@ -289,9 +289,9 @@ function check_good(pred, index) {
 
   // Display new US in HTML
   // Remove caption
-  document.getElementById('gif-mosaic').children[6].children[0].children[1].remove();
+  document.getElementById('gif-mosaic').children[index].children[0].children[1].remove();
   // Change gif for image
-  document.getElementById('gif-mosaic').children[6].children[0].children[0].src = image_path;
+  document.getElementById('gif-mosaic').children[index].children[0].children[0].src = image_path;
 
   // Replace the element after 1s
   var tmp_div = document.createElement('div');
