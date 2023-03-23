@@ -249,7 +249,7 @@ class OneUs {
               <div class="video_container">\
                 <img src="'+this.path+'" width="224">\
                 <div class="caption">\
-                < div>'+capitalizeFirstLetter(this.type)+'</div>\
+                <div>'+capitalizeFirstLetter(this.type)+'</div>\
                 </div>\
               </div>\
             </div>';
