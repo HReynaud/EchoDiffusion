@@ -231,18 +231,17 @@ class OneUs {
 
   display() {
     // Need to add call to game function
+    // <div>'+capitalizeFirstLetter(this.type)+'</div>\
+
     return '<div class="video_wrapper">\
               <div class="video_container">\
                 <img src="'+this.path+'" width="224">\
                 <div class="caption">\
-                  <div>'+capitalizeFirstLetter(this.type)+'</div>\
+                  <button onclick="check_good(true, '+this.position+')">✅</button>\
+                  <button onclick="check_good(false, '+this.position+')">❌</button>\
                 </div>\
               </div>\
             </div>';
-  }
-
-  replace_by(element, new_one) {
-
   }
 }
 
@@ -270,8 +269,8 @@ function pick_random() {
   return [type, filename];
 }
 
-
 function check_good(pred, index) {
+  // Check if the prediction is correct
   cliked_element = currently_displayed[index];
   attempts += 1;
   if (cliked_element.real == pred) {
@@ -300,8 +299,8 @@ function check_good(pred, index) {
 
   setTimeout(()=> {
     document.getElementById('gif-mosaic').replaceChild(
-      document.getElementById('gif-mosaic').children[index],
-      tmp_div.children[0]
+      tmp_div.children[0],
+      document.getElementById('gif-mosaic').children[index]
     );
   }, 1000);
 

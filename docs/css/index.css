@@ -178,7 +178,7 @@ div.video_container div.caption {
   margin: 0;
   background: #0000009c;
   position: relative;
-  top: -40px;
+  top: -54px;
   padding: 2px;
   z-index: -1;
 }
@@ -195,3 +195,15 @@ div.video_container div.caption div {
   color: white;
   z-index: 1;
 }
+
+button {
+  background: none;
+  border: none;
+  font-size: 2em;
+  margin: 0 auto;
+}
+
+button:hover {
+  transform: rotate(15deg);
+}
+
