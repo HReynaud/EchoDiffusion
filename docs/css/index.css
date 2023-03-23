@@ -165,3 +165,30 @@ div#gif-mosaic {
   grid-auto-rows: 224px;
   grid-auto-flow: dense;
 }
+
+div.video_container div.caption {
+  grid-column: 1;
+  grid-row: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  background: #0000009c;
+  position: relative;
+  top: -40px;
+  padding: 2px;
+  z-index: -1;
+}
+
+div.video_container:hover div.caption {
+  z-index: 1;
+}
+
+div.video_container div.caption div {
+  margin: 0 auto;
+  font-size: 1.25em;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  z-index: 1;
+}
