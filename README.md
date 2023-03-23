@@ -169,9 +169,9 @@ Our diffusion models can generate 2 seconds long videos, conditioned on one imag
 
 | Model | Original |   Factual   | Counterfactual |
 | ----- | ------------ |   -------   | -------------- |
-| 1SCM  | ![1SCM factual](web/assets/1SCM_original.gif) | ![1SCM factual](web/assets/1SCM_factual.gif) | ![1SCM counterfactual](web/assets/1SCM_counterfactual.gif) |
-| 2SCM  | ![2SCM factual](web/assets/2SCM_original.gif) | ![2SCM factual](web/assets/2SCM_factual.gif) | ![2SCM counterfactual](web/assets/2SCM_counterfactual.gif) |
-| 4SCM  | ![4SCM factual](web/assets/4SCM_original.gif) | ![4SCM factual](web/assets/4SCM_factual.gif) | ![4SCM counterfactual](web/assets/4SCM_counterfactual.gif) |
+| 1SCM  | ![1SCM factual](docs/videos/1SCM_original.gif) | ![1SCM factual](docs/videos/1SCM_factual.gif) | ![1SCM counterfactual](docs/videos/1SCM_counterfactual.gif) |
+| 2SCM  | ![2SCM factual](docs/videos/2SCM_original.gif) | ![2SCM factual](docs/videos/2SCM_factual.gif) | ![2SCM counterfactual](docs/videos/2SCM_counterfactual.gif) |
+| 4SCM  | ![4SCM factual](docs/videos/4SCM_original.gif) | ![4SCM factual](docs/videos/4SCM_factual.gif) | ![4SCM counterfactual](docs/videos/4SCM_counterfactual.gif) |
 
 # Acknowledgements
 
