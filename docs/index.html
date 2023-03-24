@@ -40,47 +40,7 @@
 
 <body>
 
-  <!-- <nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://keunhong.com">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Research
-        </a>
-        <div class="navbar-dropdown">
-          <a class="navbar-item" href="https://hypernerf.github.io">
-            HyperNeRF
-          </a>
-          <a class="navbar-item" href="https://nerfies.github.io">
-            Nerfies
-          </a>
-          <a class="navbar-item" href="https://latentfusion.github.io">
-            LatentFusion
-          </a>
-          <a class="navbar-item" href="https://photoshape.github.io">
-            PhotoShape
-          </a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</nav> -->
-
-
+  <!-- Title section -->
   <section class="hero">
     <div class="hero-body">
       <div class="container is-max-desktop">
@@ -188,84 +148,9 @@
     </div>
   </section>
 
-  <!-- <section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
-        free-viewpoint
-        portraits.
-      </h2>
-    </div>
-  </div>
-</section> -->
-
-
-  <!-- <section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/steve.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/chair-tp.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/shiba.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/fullbody.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-blueshirt">
-          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/blueshirt.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-mask">
-          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/mask.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-coffee">
-          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/coffee.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-toby">
-          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/toby2.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> -->
-
-
+  <!-- Abstract. -->
   <section class="section">
     <div class="container is-max-desktop">
-      <!-- Abstract. -->
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
           <h2 class="title is-3">Abstract</h2>
@@ -281,7 +166,7 @@
             <p>
               So far, video generation has only been possible by providing input
               data that is as rich as the output data, <i>e.g.</i>, image sequence
-              plus conditioning in <i class="fas fa-arrow-right fa-light"></i> video out.
+              <i class="fa-solid fa-plus"></i> conditioning <i class="fas fa-arrow-right"></i> video.
               However, clinical documentation is usually scarce and only single images
               are reported and stored, thus retrospective patient-specific analysis
               or the generation of rich training data becomes impossible with current
@@ -301,12 +186,11 @@
           </div>
         </div>
       </div>
-      <!--/ Abstract. -->
     </div>
-    <div>
-      <br>
-    </div>
-    <!-- video mosaic -->
+  </section>
+
+  <!-- Video demo -->
+  <section class="section">
     <div class="container">
       <div>
         <h2 class="title is-3">
@@ -315,8 +199,8 @@
         </h2> 
         <p>
           Hover a video to see whether it's an original sample, 
-          a factual generated sample or a counterfactual sample. 
-          You can also ckick this <button id='start_button' onclick="start_game()">Button</button> to tranform 
+          a factual generated sample or a counterfactual generated sample. 
+          You can also click this <button id='start_button' onclick="start_game()">Button</button> to tranform 
           the mosaic into a game where you have to guess whether 
           a sample is real or not.
         </p>
@@ -475,6 +359,23 @@
       </div>
     </div>
   </section>
+
+  <!-- Acknowledgements -->
+  <section class="section" id="Acknowledgements">
+    <div class="container is-max-desktop content">
+      <h2 class="title">Acknowledgements</h2>
+      <p>
+        This work was supported by Ultromics Ltd. and the UKRI Centre 
+        or Doctoral Training in Artificial Intelligence for Healthcare (EP/S023283/1).
+        The authors gratefully acknowledge the scientific support and HPC 
+        resources provided by the Erlangen National High Performance 
+        Computing Center (NHR@FAU) of the Friedrich-Alexander-Universität 
+        Erlangen-Nürnberg (FAU) under the NHR project b143dc PatRo-MRI. NHR 
+        funding is provided by federal and Bavarian state authorities. NHR@FAU 
+        hardware is partially funded by the German Research Foundation (DFG) – 440719683.</p>
+    </div>
+  </section>
+
 
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
