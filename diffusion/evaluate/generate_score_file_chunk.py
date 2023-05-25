@@ -46,9 +46,9 @@ if __name__ == "__main__":
     parser.add_argument("--diffusion_steps", type=int, default=-1, help="Number of diffusion steps.")
     parser.add_argument("--save_videos", action="store_true", help="Save videos.", default=False)
     parser.add_argument("--rand_ef", action="store_true", help="Randomize EF input.", default=False)
-    parser.add_argument("--chunks", type=int, default=1, help="Number of diffusion steps.")
-    parser.add_argument("--chunk", type=int, default=0, help="Number of diffusion steps.")
-    parser.add_argument("--stop_at", type=float, default=-1, help="stop a certain UNET")
+    parser.add_argument("--chunks", type=int, default=1, help="Number of dataset splits for multi-gpu parallel computation.")
+    parser.add_argument("--chunk", type=int, default=0, help="Rank of the current split.")
+    parser.add_argument("--stop_at", type=float, default=-1, help="stop at a given unet in the cascade.")
 
     args = parser.parse_args()
 
