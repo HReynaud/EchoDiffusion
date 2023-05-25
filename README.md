@@ -2,6 +2,9 @@
 
 This repository contains the code for the paper *[Feature-Conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis](https://arxiv.org/abs/2303.12644)*. Hadrien Reynaud, Mengyun Qiao, Mischa Dombrowski, Thomas Day, Reza Razavi, Alberto Gomez, Paul Leeson and Bernhard Kainz. MICCAI 2023.
 
+Check out our online demo: https://huggingface.co/spaces/HReynaud/EchoDiffusionDemo<br/>
+Check out our webiste: https://hreynaud.github.io/EchoDiffusion/
+
 This README is divided into the following sections:
 - [Usage](#usage)
   - [1. Setup this repository](#1-setup-this-repository)
