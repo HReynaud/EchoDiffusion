@@ -1,7 +1,8 @@
 # EchoDiffusion
 
-This repository contains the code for the paper *Feature-Conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis*. Hadrien Reynaud, Mengyun Qiao, Mischa Dombrowski, Thomas Day, Reza
-  Razavi, Alberto Gomez, Paul Leeson and Bernhard Kainz. 2023.
+This repository contains the code for the paper *[Feature-Conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis](https://arxiv.org/abs/2303.12644)*. Hadrien Reynaud, Mengyun Qiao, Mischa Dombrowski, Thomas Day, Reza Razavi, Alberto Gomez, Paul Leeson and Bernhard Kainz. 2023.
+
+*The paper will be published at MICCAI 2023.*
 
 This README is divided into the following sections:
 - [EchoDiffusion](#echodiffusion)
