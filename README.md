@@ -73,7 +73,7 @@ We evaluate the diffusion models on two sets of metrics to get quantitative esti
 ### 4.1. Compute MAE, RMSE, $R^2$, SSIM and LPIPS
 All the code necessary to compute these metrics is located in the `evaluate` folder. The easiest way to compute these metrics is to run:
 
-    python diffusion/evaluate/generate_score_file_chunk.py --model path/to/model --bs 4 --num_noise 3 --save_videos --rand_ef
+    python diffusion/evaluate/generate_score_file_chunk.py --model path/to/model --reg path/to/regression.pt --bs 4 --num_noise 3 --save_videos --rand_ef
 
 where `--model` is the path to the model to evaluate (ex. `1SCM_v2`), `--bs` is the batch size, `--num_noise` is the number of time we resample the same video and use the ejection fraction feedback loop to keep the best score, `--save_videos` is a flag to save the generated videos (necessary for FID/FVD scores) and `--rand_ef` is a flag to generate videos with random ejection fractions instead of the ejection fractions corresponding to the anatomy of the patient used as conditioning.
 
