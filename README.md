@@ -1,12 +1,8 @@
 # EchoDiffusion
 
-This repository contains the code for the paper *[Feature-Conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis](https://arxiv.org/abs/2303.12644)*. Hadrien Reynaud, Mengyun Qiao, Mischa Dombrowski, Thomas Day, Reza Razavi, Alberto Gomez, Paul Leeson and Bernhard Kainz. 2023.
-
-*The paper will be published at MICCAI 2023.*
+This repository contains the code for the paper *[Feature-Conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis](https://arxiv.org/abs/2303.12644)*. Hadrien Reynaud, Mengyun Qiao, Mischa Dombrowski, Thomas Day, Reza Razavi, Alberto Gomez, Paul Leeson and Bernhard Kainz. MICCAI 2023.
 
 This README is divided into the following sections:
-- [EchoDiffusion](#echodiffusion)
-- [Requirements](#requirements)
 - [Usage](#usage)
   - [1. Setup this repository](#1-setup-this-repository)
   - [2. Train the reference ejection fraction regression model](#2-train-the-reference-ejection-fraction-regression-model)
@@ -18,12 +14,6 @@ This README is divided into the following sections:
 - [Results](#results)
 - [Acknowledgements](#acknowledgements)
 - [Citation](#citation)
-  
-
-# Requirements
-All the code is written in Python 3.10.8. The requirements are listed in the file `requirements.txt`. To install them, run the following command:
-
-    pip install -r requirements.txt
 
 # Usage
 The code is divided into two parts: the ejection fraction regression models and the diffusion models.
@@ -35,8 +25,15 @@ The order of execution should be:
 5. Train ejection fraction regression models on ablated and generated data
 
 ## 1. Setup this repository
-- To setup this repository, first download the EchoNet-Dynamic dataset https://echonet.github.io/dynamic/index.html#access. Unzip the file in folder `data`. The only item in the `data` folder should be the folder named `EchoNet-Dynamic`.
-- Make sure you have installed the `requirements`.
+- To setup this repository, first clone it and cd into it: `git clone https://github.com/HReynaud/EchoDiffusion.git; cd EchoDiffusion`
+- (Optional) Setup a new conda env: `conda create -n echodiff python=3.10 -y; conda activate echodiff`
+- Install the requirements and current repo: `pip install -r requirements.txt; pip install -e .`
+- Then, download the EchoNet-Dynamic dataset https://echonet.github.io/dynamic/index.html#access. Unzip the file in the `data` folder. The only item in the `data` folder should be the folder named `EchoNet-Dynamic`.
+- (Optional) Download the trained weights with `git clone https://huggingface.co/HReynaud/EchoDiffusionWeights`
+
+To download the weights from huggingface 🤗, you may need to install `git lfs`, otherwise you will download references to the weights instead of the actual weights. One way is `sudo apt install git-lfs`. Follow [this guide](https://docs.github.com/en/repositories/working-with-files/managing-large-files/installing-git-large-file-storage) if you are having troubles.
+
+The weights are organized in 3 folders, corresponding to the 3 CDMs we have trained in the paper. Each folder contains a `config.yaml` file and a `merged.pt` file which contains the weights. 
 
 ## 2. Train the reference ejection fraction regression model
 The reference ejection fraction regression model is trained on the EchoNet-Dynamic dataset. To train it, run the following command:
@@ -44,6 +41,8 @@ The reference ejection fraction regression model is trained on the EchoNet-Dynam
     python ef_regression/train_reference.py --config ef_regression/config_reference
 
 ## 3. Train diffusion models
+*Training a diffusion model requires substantial computational ressources, use the [provided pre-trained weights](https://huggingface.co/HReynaud/EchoDiffusionWeights/tree/main) to skip this part.*
+
 The diffusion models are trained on the EchoNet-Dynamic dataset. We provide configuration files for 1SCM, 2SCM and 4SCM cascaded diffusion models. To train them, you can run the following command:
 
     python diffusion/train.py --config diffusion/configs/1SCM.yaml --stage 1 --bs 4 --ignore_time 0.25
@@ -59,7 +58,7 @@ We also provide slurm scripts to launch the training of all the models described
 
     sbatch diffusion/train_1SCM_stage1.sh
 
-We used clusters of 8x NVIDIA A100 GPUs with 80GB of VRAM to train the models. Each stage was train for approximately 48 hours.
+We used nodes of 8x NVIDIA A100 GPUs with 80GB of VRAM to train the models. Each stage was train for approximately 48 hours.
 
 
 ## 4. Evaluate diffusion models
@@ -69,19 +68,21 @@ We evaluate the diffusion models on two sets of metrics to get quantitative esti
 - The image quality of the generated videos (SSIM, LPIPS, FID, FVD)
 
 ### 4.1. Compute MAE, RMSE, $R^2$, SSIM and LPIPS
-All the code necessary to compute these metrics is located in the `evaluate` folder. The easiest way to compute these metrics to run:
+All the code necessary to compute these metrics is located in the `evaluate` folder. The easiest way to compute these metrics is to run:
 
-    python diffusion/evaluate/generate_score_file_chunk.py --model path/to/model --bs 4 --num_noise 3 --chunks  --save_videos --rand_ef
+    python diffusion/evaluate/generate_score_file_chunk.py --model path/to/model --bs 4 --num_noise 3 --save_videos --rand_ef
 
-where `--model` is the path to the model to evaluate, `--bs` is the batch size, `--num_noise` is the number of time we resample the same video and use the ejection fraction feedback loop to keep the best score, `--save_videos` is a flag to save the generated videos and `--rand_ef` is a flag to generate videos with random ejection fractions instead of the ejection fractions corresponding to the anatomy of the patient used as conditioning.
+where `--model` is the path to the model to evaluate (ex. `1SCM_v2`), `--bs` is the batch size, `--num_noise` is the number of time we resample the same video and use the ejection fraction feedback loop to keep the best score, `--save_videos` is a flag to save the generated videos (necessary for FID/FVD scores) and `--rand_ef` is a flag to generate videos with random ejection fractions instead of the ejection fractions corresponding to the anatomy of the patient used as conditioning.
 
-As generating videos can take a long time, we provide a script to launch the generation of videos on multiple gpus. To launch the generation of videos on 8 gpus, edit diffusion/evaluate/generate_score_file_chunk.sh to set the path to a model and run:
+As generating videos can take a long time, we provide a script to launch the generation of videos on multiple gpus. To launch the generation of videos on 8 gpus, edit `diffusion/evaluate/slurms/eval_{counter}factual.sh` to set the path to a model and run:
 
-    sbatch diffusion/evaluate/generate_score_file_chunk.sh
+    sbatch diffusion/evaluate/slurms/eval_{counter}factual.sh
 
-In both cases, the script will generate a `csv` file. To compute the actual metrics, run:
+The script will generate one `csv` file per chunk (default to 1). If you used mutliple gpus you will need to merge the `csv` files with `diffusion/evaluate/merge_score_files.py`.
 
-    python diffusion/evaluate/compute_metrics.py --model path/to/model
+To compute the actual metrics, run:
+
+    python diffusion/evaluate/compute_metrics.py --file path/to/file.csv
 
 This will compute: MAE, RMSE, $R^2$, SSIM and LPIPS, and display the results in the terminal.
 
@@ -90,41 +91,45 @@ This will compute: MAE, RMSE, $R^2$, SSIM and LPIPS, and display the results in 
 To compute FID and FVD, we use the [StyleGAN-V](https://github.com/HReynaud/stylegan-v) repo ([original repo here](https://github.com/universome/stylegan-v)).
 To get the FID and FVD scores:
 1. Clone the [StyleGAN-V](https://github.com/HReynaud/stylegan-v) repository, and install the requirements (compatible with the requirements of this repo).
-2. We provide a script to prepare the videos generated with `generate_score_file_chunk.py`. That script expects the following file tree:
+2. We provide a script to prepare the videos that have been generated by running `generate_score_file_chunk.py` with the `--save_videos` flag. That script expects the following file tree:
 
 ```
 MODEL (ex. 1SCM)
 ├───factual
 │   ├───images
 │   │   ├───real
-│   │   │   image001.txt
-│   │   │   image002.txt
+│   │   │   ├───video001
+│   │   │   │   image001.jpg
+│   │   │   │   image002.jpg
 │   │   │   ...
 │   │   └───fake
-│   │       image001.txt
-│   │       image002.txt
+│   │       ├───video001
+│   │       │   image001.jpg
+│   │       │   image002.jpg
 │   │       ...
 │   └───videos
-│       video001.txt
-│       video002.txt
+│       video001.gif
+│       video002.gif
 │       ...
 └───counterfactual
     ├───images
     │   ├───real
-    │   │   image001.txt
-    │   │   image002.txt
+    │   │   ├───video001
+    │   │   │   image001.jpg
+    │   │   │   image002.jpg
     │   │   ...
     │   └───fake
-    │       image001.txt
-    │       image002.txt
+    │       ├───video001
+    │       │   image001.jpg
+    │       │   image001.jpg
     │       ...
     └───videos
-        video001.txt
-        video002.txt
+        video001.gif
+        video002.gif
         ...
 ```
 
-3. You should copy all the generated videos of that model in the corresponding folder *ie* `counterfactual/videos` if you used the `--rand_ef` flag, and `factual/videos` otherwise. Then set `root_dir` to the `counterfactual` folder path or factual `folder` path in `split_videos_into_real_fake.sh` and run:
+3. You should copy all the generated videos of that model in the corresponding folder *ie* `counterfactual/videos` if you used the `--rand_ef` flag, and `factual/videos` otherwise. Then set `root_dir` to the `counterfactual` folder path or `factual` folder path in `diffusion/evaluate/scripts/split_videos_into_real_fake.sh` and run:
 
 
 ```
@@ -141,17 +146,17 @@ python src/scripts/calc_metrics_for_dataset.py --real_data_path path/to/images/r
 
 This will take a few minutes to run depending on the number of videos you generated. Results are printed in the terminal.
 
-For reference, we obtained the following metrics for our models:
+For reference, we obtained the following metrics for our models, using ~1200 videos each time:
 
 
 | Model | Task           | Resolution | Frames | Sampling time | R2   | MAE  | RMSE | SSIM | LPIPS | FID  | FVD  |
 |-------|----------------|------------|--------|---------------|------|------|------|------|-------|------|------|
-| 1SCM  | Generation     | 112 x 112  | 16     | 62s           | 0.64 | 9.65 | 12.2 | 0.53 | 0.21  | 12.3 | 60.5 |
-| 2SCM  | Generation     | 112 x 112  | 32     | 146s          | 0.89 | 4.81 | 6.69 | 0.53 | 0.24  | 31.7 | 141  |
-| 4SCM  | Generation     | 112 x 112  | 32     | 279s          | 0.93 | 3.77 | 5.26 | 0.48 | 0.25  | 24.6 | 230  |
-| 1SCM  | Reconstruction | 112 x 112  | 16     | 62s           | 0.76 | 4.51 | 6.07 | 0.53 | 0.21  | 13.6 | 89.7 |
-| 2SCM  | Reconstruction | 112 x 112  | 32     | 146s          | 0.93 | 2.22 | 3.35 | 0.54 | 0.24  | 31.4 | 147  |
-| 4SCM  | Reconstruction | 112 x 112  | 32     | 279s          | 0.90 | 2.42 | 3.87 | 0.48 | 0.25  | 24.0 | 228  |
+| [1SCM](https://huggingface.co/HReynaud/EchoDiffusionWeights/tree/main/1SCM_v2)  | Generation     | 112 x 112  | 16     | 62s           | 0.64 | 9.65 | 12.2 | 0.53 | 0.21  | 12.3 | 60.5 |
+| [2SCM](https://huggingface.co/HReynaud/EchoDiffusionWeights/tree/main/2SCM_v6)  | Generation     | 112 x 112  | 32     | 146s          | 0.89 | 4.81 | 6.69 | 0.53 | 0.24  | 31.7 | 141  |
+| [4SCM](https://huggingface.co/HReynaud/EchoDiffusionWeights/tree/main/4SCM_v2)  | Generation     | 112 x 112  | 32     | 279s          | 0.93 | 3.77 | 5.26 | 0.48 | 0.25  | 24.6 | 230  |
+| [1SCM](https://huggingface.co/HReynaud/EchoDiffusionWeights/tree/main/1SCM_v2)  | Reconstruction | 112 x 112  | 16     | 62s           | 0.76 | 4.51 | 6.07 | 0.53 | 0.21  | 13.6 | 89.7 |
+| [2SCM](https://huggingface.co/HReynaud/EchoDiffusionWeights/tree/main/2SCM_v6)  | Reconstruction | 112 x 112  | 32     | 146s          | 0.93 | 2.22 | 3.35 | 0.54 | 0.24  | 31.4 | 147  |
+| [4SCM](https://huggingface.co/HReynaud/EchoDiffusionWeights/tree/main/4SCM_v2)  | Reconstruction | 112 x 112  | 32     | 279s          | 0.90 | 2.42 | 3.87 | 0.48 | 0.25  | 24.0 | 228  |
 
 ## 5. Train ejection fraction regression models on ablated and generated data
 
@@ -162,7 +167,7 @@ Those videos should be moved the `data/balancing_samples/videos` folder and the 
 To train the regression models on the generated data, we used 
 1. The `ef_regression/train_balanced.py` script to train all the config files in `ef_regression/config_balance` that start with `balance_`, as well as the `all_samples.yaml` file. 
 2. The config files starting with `resample_` should be called with the `ef_regression/train_reference.py` script.
-This let us train the models on the re-balanced dataset, as well as on the original dataset with resampled ejection fractions.
+This lets us train the models on the re-balanced dataset, as well as on the original dataset with resampled ejection fractions.
 
 # Results
 
@@ -170,14 +175,15 @@ Our diffusion models can generate 2 seconds long videos, conditioned on one imag
 
 | Model | Original |   Factual   | Counterfactual |
 | ----- | ------------ |   -------   | -------------- |
-| 1SCM  | ![1SCM factual](docs/videos/1SCM_original.gif) | ![1SCM factual](docs/videos/1SCM_factual.gif) | ![1SCM counterfactual](docs/videos/1SCM_counterfactual.gif) |
-| 2SCM  | ![2SCM factual](docs/videos/2SCM_original.gif) | ![2SCM factual](docs/videos/2SCM_factual.gif) | ![2SCM counterfactual](docs/videos/2SCM_counterfactual.gif) |
-| 4SCM  | ![4SCM factual](docs/videos/4SCM_original.gif) | ![4SCM factual](docs/videos/4SCM_factual.gif) | ![4SCM counterfactual](docs/videos/4SCM_counterfactual.gif) |
+| [1SCM](https://huggingface.co/HReynaud/EchoDiffusionWeights/tree/main/1SCM_v2)  | ![1SCM factual](docs/videos/1SCM_original.gif) | ![1SCM factual](docs/videos/1SCM_factual.gif) | ![1SCM counterfactual](docs/videos/1SCM_counterfactual.gif) |
+| [2SCM](https://huggingface.co/HReynaud/EchoDiffusionWeights/tree/main/2SCM_v6)  | ![2SCM factual](docs/videos/2SCM_original.gif) | ![2SCM factual](docs/videos/2SCM_factual.gif) | ![2SCM counterfactual](docs/videos/2SCM_counterfactual.gif) |
+| [4SCM](https://huggingface.co/HReynaud/EchoDiffusionWeights/tree/main/4SCM_v2)  | ![4SCM factual](docs/videos/4SCM_original.gif) | ![4SCM factual](docs/videos/4SCM_factual.gif) | ![4SCM counterfactual](docs/videos/4SCM_counterfactual.gif) |
 
 # Acknowledgements
 
 This work was supported by Ultromics Ltd. and the UKRI Centre for Doctoral Training in Artificial Intelligence for Healthcare (EP/S023283/1).
 The authors gratefully acknowledge the scientific support and HPC resources provided by the Erlangen National High Performance Computing Center (NHR@FAU) of the Friedrich-Alexander-Universität Erlangen-Nürnberg (FAU) under the NHR project b143dc PatRo-MRI. NHR funding is provided by federal and Bavarian state authorities. NHR@FAU hardware is partially funded by the German Research Foundation (DFG) – 440719683.
+We also thank [Phil Wang](https://github.com/lucidrains) for re-implementing and open-sourcing the `imagen-video` paper and pushing the open-source community forward.
 
 
 # Citation
