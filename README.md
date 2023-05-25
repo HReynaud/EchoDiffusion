@@ -11,7 +11,7 @@ This README is divided into the following sections:
   - [2. Train the reference ejection fraction regression model](#2-train-the-reference-ejection-fraction-regression-model)
   - [3. Train diffusion models](#3-train-diffusion-models)
   - [4. Evaluate diffusion models](#4-evaluate-diffusion-models)
-    - [4.1. Compute MAE, RMSE, $R^2$, SSIM and LPIPS](#41-compute-mae-rmse-r2-ssim-and-lpips)
+    - [4.1. Compute MAE, RMSE, R<sup>2</sup>, SSIM and LPIPS](#41-compute-mae-rmse-r2-ssim-and-lpips)
     - [4.2. Compute FID and FVD](#42-compute-fid-and-fvd)
   - [5. Train ejection fraction regression models on ablated and generated data](#5-train-ejection-fraction-regression-models-on-ablated-and-generated-data)
 - [Results](#results)
