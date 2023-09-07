@@ -212,8 +212,13 @@ button:hover {
 }
 
 .publication-video {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.publication-video iframe {
+  width: 50%;
+  height: auto;
+}
+
 
