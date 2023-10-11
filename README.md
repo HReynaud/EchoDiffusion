@@ -3,7 +3,8 @@
 This repository contains the code for the paper *[Feature-Conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis](https://arxiv.org/abs/2303.12644)*. Hadrien Reynaud, Mengyun Qiao, Mischa Dombrowski, Thomas Day, Reza Razavi, Alberto Gomez, Paul Leeson and Bernhard Kainz. MICCAI 2023.
 
 🤗 Check out our online demo: https://huggingface.co/spaces/HReynaud/EchoDiffusionDemo<br/>
-🌐 Check out our webiste: https://hreynaud.github.io/EchoDiffusion/
+🌐 Check out our webiste: https://hreynaud.github.io/EchoDiffusion/<br/>
+📕 MICCAI proceedings: https://link.springer.com/chapter/10.1007/978-3-031-43999-5_14<br/>
 
 This README is divided into the following sections:
 - [Usage](#usage)
@@ -191,13 +192,12 @@ We also thank [Phil Wang](https://github.com/lucidrains) for re-implementing and
 
 # Citation
 ```
-@misc{reynaud2023featureconditioned,
-      title={Feature-Conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis}, 
-      author={Hadrien Reynaud and Mengyun Qiao and Mischa Dombrowski and Thomas Day and Reza Razavi and Alberto Gomez and Paul Leeson and Bernhard Kainz},
-      year={2023},
-      eprint={2303.12644},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@inproceedings{reynaud2023feature,
+      title        = {Feature-{Conditioned} {Cascaded} {Video} {Diffusion} {Models} for {Precise} {Echocardiogram} {Synthesis}},
+      author       = {Reynaud, Hadrien and Qiao, Mengyun and Dombrowski, Mischa and Day, Thomas and Razavi, Reza and Gomez, Alberto and Leeson, Paul and Kainz, Bernhard},
+      year         = 2023,
+      booktitle    = {Medical {Image} {Computing} and {Computer} {Assisted} {Intervention} – {MICCAI} 2023},
+      pages        = {142--152}
 }
 ```
 
