@@ -3,7 +3,7 @@ git+https://github.com/HReynaud/imagen-pytorch.git#egg=imagen-pytorch
 omegaconf==2.2.3
 opencv_python==4.6.0.66
 pandas==1.5.2
-Pillow==9.4.0
+Pillow==10.0.1
 pytorch_lightning==1.8.3
 scikit-learn==1.2.2
 scipy==1.10.1
