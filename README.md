@@ -1,5 +1,8 @@
 # EchoDiffusion 
 
+⭐️ **NEW** ⭐️: **Check our new [latent video diffusion repository](https://github.com/HReynaud/EchoNet-Synthetic)! It's faster and requires much less ressources while having better temporal consistency !**
+#
+
 This repository contains the code for the paper *[Feature-Conditioned Cascaded Video Diffusion Models for Precise Echocardiogram Synthesis](https://arxiv.org/abs/2303.12644)*. Hadrien Reynaud, Mengyun Qiao, Mischa Dombrowski, Thomas Day, Reza Razavi, Alberto Gomez, Paul Leeson and Bernhard Kainz. MICCAI 2023.
 
 🤗 Check out our online demo: https://huggingface.co/spaces/HReynaud/EchoDiffusionDemo<br/>
